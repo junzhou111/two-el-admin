@@ -16,7 +16,9 @@
           <img class="img" :src="url" alt="" />
         </div>
         <el-form-item class="btn-box">
-          <el-button class="btn-left" type="primary">登录</el-button>
+          <el-button class="btn-left" type="primary" @click="tohome"
+            >登录</el-button
+          >
           <el-button class="btn-right">重置</el-button>
         </el-form-item>
       </el-form>
@@ -25,6 +27,7 @@
 </template>
 <script>
 import newdata from "../../api/text";
+
 export default {
   name: "App",
   data() {
@@ -44,8 +47,39 @@ export default {
   },
   components: {},
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    tohome() {
+      // let str = `username=${this.form.username}&password=${this.form.password}&code=${this.form.code}`;
+      // newdata
+      //   .getNewlist(str)
+      //   .then((res) => {
+      //     console.log(res);
+      //     if (res.data.token) {
+      //       // 存到vuex
+      //       this.$store.state.token = res.data.token;
+      //       // 存到本地
+      //       localStorage.setItem("token", res.data.token);
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      this.$refs["form"].validate(async (valid) => {
+        if (valid) {
+          let str = `username=${this.form.username}&password=${this.form.password}&code=${this.form.code}`;
+          await this.$store.dispatch("handleLogin", str);
+          const token = this.$store.state.token;
+          if (!token) return;
+          this.log = "登陆中....";
+          this.$message({
+            message: "恭喜你，登录成功",
+            type: "success",
+          });
+          this.$router.push("/home");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
   },
   watch: {},
