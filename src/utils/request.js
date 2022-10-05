@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { getlotionToken } from "../utils/auth";
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -9,6 +9,7 @@ const service = axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(
   function (config) {
+    config.headers.token = getlotionToken();
     // 在发送请求之前做些什么
     return config;
   },

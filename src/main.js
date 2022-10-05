@@ -10,6 +10,8 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 
+import Fragment from "vue-fragment";
+Vue.use(Fragment.Plugin);
 new Vue({
   router,
   store,

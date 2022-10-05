@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { setlotionToken, getlotionToken } from "../utils/auth";
-import { handelLogin } from "../api/text";
+import Menu from "./modules/menu";
+import getters from "./modules/getters"
+import newdata from "../api/text";
 
 Vue.use(Vuex);
 
@@ -18,14 +20,16 @@ export default new Vuex.Store({
   mutations: {
     handleLogin(state, obj) {
       console.log(obj);
-      state.token = obj.token;
-      setlotionToken(obj.token);
+      state.token = obj.data.token;
+      setlotionToken(obj.data.token);
     },
   },
   actions: {
     async handleLogin({ commit }, str) {
       try {
-        const hanLog = await handelLogin(str);
+        console.log(111);
+        const hanLog = await newdata.getNewlist(str);
+        console.log(hanLog);
         commit("handleLogin", hanLog);
         return hanLog;
       } catch (error) {
@@ -33,5 +37,8 @@ export default new Vuex.Store({
       }
     },
   },
-  modules: {},
+  getters,
+  modules: {
+    Menu,
+  },
 });
